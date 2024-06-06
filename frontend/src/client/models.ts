@@ -44,6 +44,32 @@ export type ItemsPublic = {
 };
 
 
+export type SourceCreate = {
+	source_name: string;
+	
+};
+
+
+
+export type SourcePublic = {
+	source_name: string;
+	id: number;
+};
+
+
+
+export type SourceUpdate = {
+	source_name: string;
+};
+
+
+
+export type SourcesPublic = {
+	data: Array<SourcePublic>;
+	count: number;
+};
+
+
 
 export type Message = {
 	message: string;

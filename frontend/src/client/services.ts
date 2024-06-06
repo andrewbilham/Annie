@@ -2,7 +2,7 @@ import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
 
-import type { Body_login_login_access_token,Message,NewPassword,Token,UserPublic,UpdatePassword,UserCreate,UserRegister,UsersPublic,UserUpdate,UserUpdateMe,ItemCreate,ItemPublic,ItemsPublic,ItemUpdate } from './models';
+import type { Body_login_login_access_token,Message,NewPassword,Token,UserPublic,UpdatePassword,UserCreate,UserRegister,UsersPublic,UserUpdate,UserUpdateMe,ItemCreate,ItemPublic,ItemsPublic,ItemUpdate, SourceCreate, SourcePublic,SourcesPublic,SourceUpdate } from './models';
 
 export type TDataLoginAccessToken = {
                 formData: Body_login_login_access_token
@@ -456,7 +456,7 @@ requestBody,
 } = data;
 		return __request(OpenAPI, {
 			method: 'POST',
-			url: '/api/v1/items/',
+			url: '/api/v1/item/',
 			body: requestBody,
 			mediaType: 'application/json',
 			errors: {
@@ -525,6 +525,146 @@ id,
 		return __request(OpenAPI, {
 			method: 'DELETE',
 			url: '/api/v1/items/{id}',
+			path: {
+				id
+			},
+			errors: {
+				422: `Validation Error`,
+			},
+		});
+	}
+
+}
+
+export type TDataReadSources = {
+	limit?: number
+skip?: number
+	
+}
+export type TDataCreateSource = {
+	requestBody: SourceCreate
+	
+}
+export type TDataReadSource = {
+	id: number
+	
+}
+export type TDataUpdateSource = {
+	id: number
+requestBody: SourceUpdate
+	
+}
+export type TDataDeleteSource = {
+	id: number
+	
+}
+
+export class SourcesService {
+
+	/**
+	 * Read Sources
+	 * Retrieve sources.
+	 * @returns SourcesPublic Successful Response
+	 * @throws ApiError
+	 */
+	public static readSources(data: TDataReadSources = {}): CancelablePromise<SourcesPublic> {
+		const {
+limit = 100,
+skip = 0,
+} = data;
+		return __request(OpenAPI, {
+			method: 'GET',
+			url: '/api/v1/sources/',
+			query: {
+				skip, limit
+			},
+			errors: {
+				422: `Validation Error`,
+			},
+		});
+	}
+
+	/**
+	 * Create Source
+	 * Create new source.
+	 * @returns SourcePublic Successful Response
+	 * @throws ApiError
+	 */
+	public static createSource(data: TDataCreateSource): CancelablePromise<SourcePublic> {
+		const {
+requestBody,
+} = data;
+		return __request(OpenAPI, {
+			method: 'POST',
+			url: '/api/v1/sources/',
+			body: requestBody,
+			mediaType: 'application/json',
+			errors: {
+				422: `Validation Error`,
+			},
+		});
+	}
+
+	/**
+	 * Read Source
+	 * Get source by ID.
+	 * @returns SourcePublic Successful Response
+	 * @throws ApiError
+	 */
+	public static readSource(data: TDataReadSource): CancelablePromise<SourcePublic> {
+		const {
+id,
+} = data;
+		return __request(OpenAPI, {
+			method: 'GET',
+			url: '/api/v1/sources/{id}',
+			path: {
+				id
+			},
+			errors: {
+				422: `Validation Error`,
+			},
+		});
+	}
+
+	/**
+	 * Update Source
+	 * Update an source.
+	 * @returns SourcePublic Successful Response
+	 * @throws ApiError
+	 */
+	public static updateSource(data: TDataUpdateSource): CancelablePromise<SourcePublic> {
+		const {
+			id,
+requestBody,
+} = data;
+		return __request(OpenAPI, {
+			method: 'PUT',
+			url: '/api/v1/sources/{id}',
+			path: {
+				id
+			},
+			body: requestBody,
+			mediaType: 'application/json',
+			errors: {
+				422: `Validation Error`,
+			},
+		});
+	}
+
+	/**
+	 * Delete Source
+	 * Delete an source.
+	 * @returns Message Successful Response
+	 * @throws ApiError
+	 */
+	public static deleteSource(data: TDataDeleteSource): CancelablePromise<Message> {
+		const {
+id,
+} = data;
+		return __request(OpenAPI, {
+			method: 'DELETE',
+			url: '/api/v1/sources/{id}',
 			path: {
 				id
 			},
