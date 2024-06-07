@@ -1,7 +1,5 @@
 from sqlmodel import Field, Relationship, SQLModel
 
-import app.custommodels.sources
-
 
 # Shared properties
 # TODO replace email str with EmailStr when sqlmodel supports it
@@ -94,7 +92,7 @@ class ItemsPublic(SQLModel):
     data: list[ItemPublic]
     count: int
 
-""" ####### sources #######
+ ####### sources #######
 
 
 # Shared properties
@@ -128,7 +126,7 @@ class SourcePublic(SourceBase):
 
 class SourcesPublic(SQLModel):
     data: list[SourcePublic]
-    count: int """
+    count: int 
 
 # Generic message
 class Message(SQLModel):
