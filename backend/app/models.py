@@ -128,6 +128,31 @@ class SourcesPublic(SQLModel):
     data: list[SourcePublic]
     count: int 
 
+
+# Database model, database table inferred from class name
+class Supplier(SupplierBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    name: str
+    owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
+    owner: User | None = Relationship(back_populates="suppliers")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Generic message
 class Message(SQLModel):
     message: str
