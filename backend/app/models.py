@@ -46,6 +46,7 @@ class User(UserBase, table=True):
     hashed_password: str
     items: list["Item"] = Relationship(back_populates="owner")
     sources: list["Source"] = Relationship(back_populates="owner")
+    suppliers: list["Supplier"] = Relationship(back_populates="owner")
 
 
 # Properties to return via API, id is always required
@@ -128,6 +129,23 @@ class SourcesPublic(SQLModel):
     data: list[SourcePublic]
     count: int 
 
+ ####### Suppliers #######
+
+
+# Shared properties
+class SupplierBase(SQLModel):
+    name: str
+
+
+# Properties to receive on source creation
+class SupplierCreate(SupplierBase):
+    name: str
+
+
+# Properties to receive on source update
+class SupplierUpdate(SupplierBase):
+    name: str | None = None  # type: ignore
+
 
 # Database model, database table inferred from class name
 class Supplier(SupplierBase, table=True):
@@ -135,6 +153,18 @@ class Supplier(SupplierBase, table=True):
     name: str
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="suppliers")
+
+
+
+# Properties to return via API, id is always required
+class SupplierPublic(SupplierBase):
+    id: int
+    owner_id: int
+
+
+class SuppliersPublic(SQLModel):
+    data: list[SupplierPublic]
+    count: int 
 
 
 
