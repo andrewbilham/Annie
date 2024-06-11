@@ -1,4 +1,4 @@
-from sqlmodel import Field, Relationship, SQLModel, DateTime, func
+from sqlmodel import Field, Relationship, SQLModel, DateTime, func, Column
 
 ##### users
 # Shared properties
@@ -157,8 +157,8 @@ class Supplier(SupplierBase, table=True):
     address_1: str
     address_town: str
     address_postcode: str
-    created_on: DateTime | None = Field(DateTime(timezone=True), server_default=func.now())
-    modified_on: DateTime | None = Field(DateTime(timezone=True), onupdate=func.now())
+    created_on: str | None = Column(DateTime(timezone=True), server_default=func.now())
+    modified_on: str | None = Column(DateTime(timezone=True), onupdate=func.now())
     Email: str
     Tel: int
 
