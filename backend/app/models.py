@@ -1,4 +1,5 @@
-from sqlmodel import Field, Relationship, SQLModel, DateTime, func, Column
+from sqlmodel import Field, Relationship, SQLModel, func, Column, TIMESTAMP, text
+from datetime import datetime
 
 ##### users
 # Shared properties
@@ -157,12 +158,20 @@ class Supplier(SupplierBase, table=True):
     address_1: str
     address_town: str
     address_postcode: str
-    created_on: str | None = Column(DateTime(timezone=True), server_default=func.now())
-    modified_on: str | None = Column(DateTime(timezone=True), onupdate=func.now())
+    created_datetime: datetime = Field(sa_column=Column(
+        TIMESTAMP(timezone=True),
+        nullable=False,
+        server_default=text("CURRENT_TIMESTAMP"),
+    ))
+    updated_datetime: datetime = Field(sa_column=Column(
+        TIMESTAMP(timezone=True),
+        nullable=False,
+        server_default=text("CURRENT_TIMESTAMP"),
+        server_onupdate=text("CURRENT_TIMESTAMP"),
+    ))
+
     Email: str
     Tel: int
-
-
 
 
 # Properties to return via API, id is always required
