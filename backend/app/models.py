@@ -1,6 +1,6 @@
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Field, Relationship, SQLModel, DateTime, func
 
-
+##### users
 # Shared properties
 # TODO replace email str with EmailStr when sqlmodel supports it
 class UserBase(SQLModel):
@@ -58,6 +58,7 @@ class UsersPublic(SQLModel):
     data: list[UserPublic]
     count: int
 
+######## items
 
 # Shared properties
 class ItemBase(SQLModel):
@@ -150,9 +151,17 @@ class SupplierUpdate(SupplierBase):
 # Database model, database table inferred from class name
 class Supplier(SupplierBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    name: str
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="suppliers")
+    name: str
+    address_1: str
+    address_town: str
+    address_postcode: str
+    created_on: DateTime | None = Field(DateTime(timezone=True), server_default=func.now())
+    modified_on: DateTime | None = Field(DateTime(timezone=True), onupdate=func.now())
+    Email: str
+    Tel: int
+
 
 
 
