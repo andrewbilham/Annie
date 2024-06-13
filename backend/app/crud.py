@@ -3,7 +3,7 @@ from typing import Any
 from sqlmodel import Session, select
 
 from app.core.security import get_password_hash, verify_password
-from app.models import Item, ItemCreate, User, UserCreate, UserUpdate, Source, SourceCreate
+from app.models import Item, ItemCreate, User, UserCreate, UserUpdate, Source, SourceCreate, Supplier,SupplierCreate
 
 
 def create_user(*, session: Session, user_create: UserCreate) -> User:
@@ -59,4 +59,12 @@ def create_source(*, session: Session, source_in: SourceCreate, owner_id: int) -
     session.commit()
     session.refresh(db_source)
     return db_source
+
+def create_supplier(*, session: Session, supplier_in: SupplierCreate, owner_id: int) -> Supplier:
+    db_supplier = Supplier.model_validate(supplier_in, update={"owner_id": owner_id})
+    session.add(db_supplier)
+    session.commit()
+    session.refresh(db_supplier)
+    return db_supplier
+    
 
