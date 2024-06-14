@@ -1,5 +1,7 @@
 from sqlmodel import Field, Relationship, SQLModel, func, Column, TIMESTAMP, text
 from datetime import datetime, date, time
+import sqlalchemy as sa
+
 
 ##### users
 # Shared properties
@@ -45,6 +47,17 @@ class UpdatePassword(SQLModel):
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     hashed_password: str
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
     items: list["Item"] = Relationship(back_populates="owner")
     sources: list["Source"] = Relationship(back_populates="owner")
     suppliers: list["Supplier"] = Relationship(back_populates="owner")
@@ -53,8 +66,10 @@ class User(UserBase, table=True):
     circs_groups: list["Circs_Group"] = Relationship(back_populates="owner")
     veh_groups: list["Veh_Group"] = Relationship(back_populates="owner")
     supplier_rates: list["Supplier_Rate"] = Relationship(back_populates="owner")
+    source_rates: list["Source_Rate"] = Relationship(back_populates="owner")
     referrals: list["Referral"] = Relationship(back_populates="owner")
-    referral_allocaions: list["Referral_Allocation"] = Relationship(back_populates="owner")
+    referral_allocations: list["Referral_Allocation"] = Relationship(back_populates="owner")
+
 
 
 # Properties to return via API, id is always required
@@ -90,6 +105,17 @@ class Item(ItemBase, table=True):
     title: str
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="items")
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
 
 
 # Properties to return via API, id is always required
@@ -128,6 +154,17 @@ class Source(SourceBase, table=True):
     owner: User | None = Relationship(back_populates="sources")
     referrals: list["Referral"] = Relationship(back_populates="source")
     source_rates: list["Source_Rate"] = Relationship(back_populates="source")
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
 
 
 # Properties to return via API, id is always required
@@ -169,17 +206,17 @@ class Supplier(SupplierBase, table=True):
     address_1: str
     address_town: str
     address_postcode: str
-    created_datetime: datetime = Field(sa_column=Column(
-        TIMESTAMP(timezone=True),
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
         nullable=False,
-        server_default=text("CURRENT_TIMESTAMP"),
-    ))
-    updated_datetime: datetime = Field(sa_column=Column(
-        TIMESTAMP(timezone=True),
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP"),
-        server_onupdate=text("CURRENT_TIMESTAMP"),
-    ))
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
 
     Email: str
     Tel: int
@@ -196,12 +233,10 @@ class SuppliersPublic(SQLModel):
     count: int 
 
 
-
-
 ######## Claim
 
 
-# Shared properties
+ # Shared properties
 class ClaimBase(SQLModel):
     client_firstname: str
     client_lastname: str
@@ -223,7 +258,7 @@ class ClaimUpdate(ClaimBase):
 class Claim(ClaimBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
-    owner: User | None = Relationship(back_populates="claim")
+    owner: User | None = Relationship(back_populates="claims")
     referrals: list["Referral"] = Relationship(back_populates="claim")
     client_firstname: str
     client_lastname: str
@@ -236,17 +271,17 @@ class Claim(ClaimBase, table=True):
     client_phone: str
     client_mobile: str
     client_email: str
-    created_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-        ))
-    updated_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-            server_onupdate=text("CURRENT_TIMESTAMP"),
-        ))
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
     authority_id: int | None = Field(default=None, foreign_key="authority.id", nullable=False)
     plate_type: str
     accident_date: date
@@ -274,7 +309,7 @@ class ClaimPublic(ClaimBase):
 
 class ClaimsPublic(SQLModel):
     data: list[ClaimPublic]
-    count: int 
+    count: int  
 
 
 ######## Authority
@@ -299,18 +334,18 @@ class AuthorityUpdate(AuthorityBase):
 class Authority(AuthorityBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
-    owner: User | None = Relationship(back_populates="authority")
-    created_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-        ))
-    updated_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-            server_onupdate=text("CURRENT_TIMESTAMP"),
-        ))
+    owner: User | None = Relationship(back_populates="authorities")
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
     name: str
 
 
@@ -353,18 +388,18 @@ class Circs_GroupUpdate(Circs_GroupBase):
 class Circs_Group(Circs_GroupBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
-    owner: User | None = Relationship(back_populates="circs_group")
-    created_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-        ))
-    updated_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-            server_onupdate=text("CURRENT_TIMESTAMP"),
-        ))
+    owner: User | None = Relationship(back_populates="circs_groups")
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
     group: str
     desc: str
 
@@ -406,18 +441,18 @@ class Veh_GroupUpdate(Veh_GroupBase):
 class Veh_Group(Veh_GroupBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
-    owner: User | None = Relationship(back_populates="veh_group")
-    created_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-        ))
-    updated_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-            server_onupdate=text("CURRENT_TIMESTAMP"),
-        ))
+    owner: User | None = Relationship(back_populates="veh_groups")
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
     group: str
     desc: str
 
@@ -454,18 +489,18 @@ class Supplier_RateUpdate(Supplier_RateBase):
 class Supplier_Rate(Supplier_RateBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
-    owner: User | None = Relationship(back_populates="supplier_rate")
-    created_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-        ))
-    updated_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-            server_onupdate=text("CURRENT_TIMESTAMP"),
-        ))
+    owner: User | None = Relationship(back_populates="supplier_rates")
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
     authority_id: int | None = Field(default=None, foreign_key="authority.id", nullable=False)
     plate_type: str
     veh_group_id: int | None = Field(default=None, foreign_key="veh_group.id", nullable=False)
@@ -511,26 +546,26 @@ class ReferralUpdate(ReferralBase):
 class Referral(ReferralBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
-    owner: User | None = Relationship(back_populates="referral")
-    created_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-        ))
-    updated_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-            server_onupdate=text("CURRENT_TIMESTAMP"),
-        ))
+    owner: User | None = Relationship(back_populates="referrals")
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
     source_id: int | None = Field(default=None, foreign_key="source.id", nullable=False)
-    source: Source | None = Relationship(back_populates="referral")
+    source: Source | None = Relationship(back_populates="referrals")
     claim_id: int | None = Field(default=None, foreign_key="claim.id", nullable=False)
-    claim: Claim | None = Relationship(back_populates="referral")
+    claim: Claim | None = Relationship(back_populates="referrals")
     supplier_id: int | None = Field(default=None, foreign_key="supplier.id", nullable=False)
-    supplier: Supplier | None = Relationship(back_populates="referral")
+    supplier: Supplier | None = Relationship(back_populates="referrals")
     type: str
-    referral_allocaions: list["Referral_Allocation"] = Relationship(back_populates="referral")
+    referral_allocations: list["Referral_Allocation"] = Relationship(back_populates="referral")
 
 
 
@@ -568,22 +603,22 @@ class Referral_AllocationUpdate(Referral_AllocationBase):
 class Referral_Allocation(Referral_AllocationBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
-    owner: User | None = Relationship(back_populates="referral_allocation")
-    created_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-        ))
-    updated_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-            server_onupdate=text("CURRENT_TIMESTAMP"),
-        ))
+    owner: User | None = Relationship(back_populates="referral_allocations")
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
     supplier_id: int | None = Field(default=None, foreign_key="supplier.id", nullable=False)
-    supplier: Supplier | None = Relationship(back_populates="referral_allocation")
+    supplier: Supplier | None = Relationship(back_populates="referral_allocations")
     referral_id: int | None = Field(default=None, foreign_key="referral.id", nullable=False)
-    referral: Referral | None = Relationship(back_populates="referral_allocation")
+    referral: Referral | None = Relationship(back_populates="referral_allocations")
     sentdate: datetime
     status: str
     responsedate: datetime
@@ -624,18 +659,18 @@ class Source_RateUpdate(Source_RateBase):
 class Source_Rate(Source_RateBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
-    owner: User | None = Relationship(back_populates="source_rate")
-    created_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-        ))
-    updated_datetime: datetime = Field(sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            server_default=text("CURRENT_TIMESTAMP"),
-            server_onupdate=text("CURRENT_TIMESTAMP"),
-        ))
+    owner: User | None = Relationship(back_populates="source_rates")
+    created_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"server_default": sa.func.now()},
+        nullable=False,
+    )
+    updated_datetime: datetime | None = Field(
+        default=None,
+        sa_type= sa.DateTime(timezone=True),
+        sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
+    )
     authority_id: int | None = Field(default=None, foreign_key="authority.id", nullable=False)
     plate_type: str
     veh_group_id: int | None = Field(default=None, foreign_key="veh_group.id", nullable=False)
@@ -644,7 +679,7 @@ class Source_Rate(Source_RateBase, table=True):
     rate: float
     hire_length: int
     source_id: int | None = Field(default=None, foreign_key="source.id", nullable=False)
-    source: Source | None = Relationship(back_populates="source_rate")
+    source: Source | None = Relationship(back_populates="source_rates")
 
 
 
