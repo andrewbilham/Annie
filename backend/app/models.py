@@ -1,4 +1,4 @@
-from sqlmodel import Field, Relationship, SQLModel, func, Column, TIMESTAMP, text
+from sqlmodel import Field, Relationship, SQLModel 
 from datetime import datetime, date, time
 import sqlalchemy as sa
 
@@ -152,7 +152,7 @@ class Source(SourceBase, table=True):
     source_name: str
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="sources")
-    referrals: list["Referral"] = Relationship(back_populates="source")
+  ##  referrals: list["Referral"] = Relationship(back_populates="source")
     source_rates: list["Source_Rate"] = Relationship(back_populates="source")
     created_datetime: datetime | None = Field(
         default=None,
@@ -202,10 +202,10 @@ class Supplier(SupplierBase, table=True):
     owner: User | None = Relationship(back_populates="suppliers")
     referrals: list["Referral"] = Relationship(back_populates="supplier")
     referral_allocations: list["Referral_Allocation"] = Relationship(back_populates="supplier")
-    name: str
-    address_1: str
-    address_town: str
-    address_postcode: str
+    name: str | None = None
+    address_1: str | None = None
+    address_town: str | None = None
+    address_postcode: str | None = None
     created_datetime: datetime | None = Field(
         default=None,
         sa_type= sa.DateTime(timezone=True),
@@ -218,8 +218,8 @@ class Supplier(SupplierBase, table=True):
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
 
-    Email: str
-    Tel: int
+    Email: str | None = None
+    Tel: int | None = None
 
 
 # Properties to return via API, id is always required
@@ -240,7 +240,9 @@ class SuppliersPublic(SQLModel):
 class ClaimBase(SQLModel):
     client_firstname: str
     client_lastname: str
-
+    authority_id: int
+    
+    
 
 # Properties to receive on claim creation
 class ClaimCreate(ClaimBase):
@@ -259,18 +261,18 @@ class Claim(ClaimBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="claims")
-    referrals: list["Referral"] = Relationship(back_populates="claim")
-    client_firstname: str
-    client_lastname: str
-    client_address_1: str
-    client_address_town: str
-    client_address_postcode: str
-    client_vehicle_reg: str
-    client_insurer: str
-    client_insurer_policyno: str
-    client_phone: str
-    client_mobile: str
-    client_email: str
+    ##referrals: list["Referral"] = Relationship(back_populates="claim")
+    client_firstname: str | None = None
+    client_lastname: str | None = None
+    client_address_1: str | None = None
+    client_address_town: str | None = None
+    client_address_postcode: str | None = None
+    client_vehicle_reg: str | None = None
+    client_insurer: str | None = None
+    client_insurer_policyno: str | None = None
+    client_phone: str | None = None
+    client_mobile: str | None = None
+    client_email: str | None = None
     created_datetime: datetime | None = Field(
         default=None,
         sa_type= sa.DateTime(timezone=True),
@@ -283,29 +285,29 @@ class Claim(ClaimBase, table=True):
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
     authority_id: int | None = Field(default=None, foreign_key="authority.id", nullable=False)
-    plate_type: str
-    accident_date: date
-    accident_time: time
-    accident_location: str
-    accident_circs: str
-    tp_firstname: str
-    tp_lastname: str
-    tp_address_1: str
-    tp_address_town: str
-    tp_address_postcode: str
-    tp_vehicle_reg: str
-    tp_insurer: str
-    tp_insurer_polcyno: str
-    tp_phone: str
-    tp_mobile: str
+    plate_type: str | None = None
+    accident_date: date | None = None
+    accident_time: time | None = None
+    accident_location: str | None = None
+    accident_circs: str | None = None
+    tp_firstname: str | None = None
+    tp_lastname: str | None = None
+    tp_address_1: str | None = None
+    tp_address_town: str | None = None
+    tp_address_postcode: str | None = None
+    tp_vehicle_reg: str | None = None
+    tp_insurer: str | None = None
+    tp_insurer_polcyno: str | None = None
+    tp_phone: str | None = None
+    tp_mobile: str | None = None
 
 
 
 # Properties to return via API, id is always required
 class ClaimPublic(ClaimBase):
     id: int
-    owner_id: int
-
+    
+    
 
 class ClaimsPublic(SQLModel):
     data: list[ClaimPublic]
@@ -339,14 +341,13 @@ class Authority(AuthorityBase, table=True):
         default=None,
         sa_type= sa.DateTime(timezone=True),
         sa_column_kwargs={"server_default": sa.func.now()},
-        nullable=False,
     )
     updated_datetime: datetime | None = Field(
         default=None,
         sa_type= sa.DateTime(timezone=True),
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
-    name: str
+    name: str | None = None
 
 
 
@@ -400,8 +401,8 @@ class Circs_Group(Circs_GroupBase, table=True):
         sa_type= sa.DateTime(timezone=True),
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
-    group: str
-    desc: str
+    group: str | None = None
+    desc: str | None = None
 
 
 # Properties to return via API, id is always required
@@ -453,8 +454,8 @@ class Veh_Group(Veh_GroupBase, table=True):
         sa_type= sa.DateTime(timezone=True),
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
-    group: str
-    desc: str
+    group: str | None = None
+    desc: str | None = None
 
 
 # Properties to return via API, id is always required
@@ -502,12 +503,12 @@ class Supplier_Rate(Supplier_RateBase, table=True):
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
     authority_id: int | None = Field(default=None, foreign_key="authority.id", nullable=False)
-    plate_type: str
+    plate_type: str | None = None
     veh_group_id: int | None = Field(default=None, foreign_key="veh_group.id", nullable=False)
     circs_group_id: int | None = Field(default=None, foreign_key="circs_group.id", nullable=False)
-    type: str
-    rate: float
-    hire_length: int
+    type: str | None = None
+    rate: float | None = None
+    hire_length: int | None = None
     supplier_id: int | None = Field(default=None, foreign_key="supplier.id", nullable=False)
 
 
@@ -529,17 +530,19 @@ class Supplier_RatesPublic(SQLModel):
 
 # Shared properties
 class ReferralBase(SQLModel):
-    Source: str
+    source_id: int
+    claim_id: int
 
 
 # Properties to receive on referral creation
 class ReferralCreate(ReferralBase):
-    Source: str
+    source_id: int
+    claim_id: int
 
 
 # Properties to receive on referral update
 class ReferralUpdate(ReferralBase):
-    Source: str | None = None  # type: ignore
+    source_id: int | None = None  # type: ignore
 
 
 # Database model, database table inferred from class name
@@ -559,12 +562,12 @@ class Referral(ReferralBase, table=True):
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
     source_id: int | None = Field(default=None, foreign_key="source.id", nullable=False)
-    source: Source | None = Relationship(back_populates="referrals")
+    ##source: Source | None = Relationship(back_populates="referrals")
     claim_id: int | None = Field(default=None, foreign_key="claim.id", nullable=False)
-    claim: Claim | None = Relationship(back_populates="referrals")
-    supplier_id: int | None = Field(default=None, foreign_key="supplier.id", nullable=False)
+    ##claim: Claim | None = Relationship(back_populates="referrals")
+    supplier_id: int  | None = Field(default=None, foreign_key="supplier.id", nullable=True)
     supplier: Supplier | None = Relationship(back_populates="referrals")
-    type: str
+    type: str | None = None
     referral_allocations: list["Referral_Allocation"] = Relationship(back_populates="referral")
 
 
@@ -573,6 +576,8 @@ class Referral(ReferralBase, table=True):
 class ReferralPublic(ReferralBase):
     id: int
     owner_id: int
+    source_id: int
+
 
 
 class ReferralsPublic(SQLModel):
@@ -619,9 +624,9 @@ class Referral_Allocation(Referral_AllocationBase, table=True):
     supplier: Supplier | None = Relationship(back_populates="referral_allocations")
     referral_id: int | None = Field(default=None, foreign_key="referral.id", nullable=False)
     referral: Referral | None = Relationship(back_populates="referral_allocations")
-    sentdate: datetime
-    status: str
-    responsedate: datetime
+    sentdate: datetime | None = None
+    status: str | None = None
+    responsedate: datetime | None = None
 
 
 
@@ -672,12 +677,12 @@ class Source_Rate(Source_RateBase, table=True):
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
     authority_id: int | None = Field(default=None, foreign_key="authority.id", nullable=False)
-    plate_type: str
+    plate_type: str | None = None
     veh_group_id: int | None = Field(default=None, foreign_key="veh_group.id", nullable=False)
     circs_group_id: int | None = Field(default=None, foreign_key="circs_group.id", nullable=False)
-    type: str
-    rate: float
-    hire_length: int
+    type: str | None = None
+    rate: float | None = None
+    hire_length: int | None = None
     source_id: int | None = Field(default=None, foreign_key="source.id", nullable=False)
     source: Source | None = Relationship(back_populates="source_rates")
 
@@ -696,8 +701,19 @@ class Source_RatesPublic(SQLModel):
 
 
 
+class RequestBase(SQLModel):
+    type : str
+    source_id: int
+    client_firstname : str
+    client_lastname : str
+    authority_id : int
 
-
+class RequestCreate(SQLModel):
+    type : str
+    source_id: int
+    client_firstname : str
+    client_lastname : str
+    authority_id : int
 
 
 

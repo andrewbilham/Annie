@@ -4,7 +4,8 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Referral, ReferralCreate, ReferralPublic, ReferralsPublic, ReferralUpdate, Message
+from app.models import Referral, ReferralCreate, ReferralPublic, ReferralsPublic, ReferralUpdate, Message, \
+                        Source
 
 router = APIRouter()
 
@@ -60,6 +61,9 @@ def create_referral(
     """
     Create new referral.
     """
+
+    source = session.get(Source, referral_in.source_id)   
+
     referral = Referral.model_validate(referral_in, update={"owner_id": current_user.id})
     session.add(referral)
     session.commit()

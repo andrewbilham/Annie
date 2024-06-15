@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
-from app.api.routes import items, login, users, utils, sources,suppliers,circs_groups,claims,referrals_allocations,referrals,source_rates,supplier_rates,veh_groups,authorities
+from app.api.routes import items, login, users, utils, sources,suppliers,circs_groups,claims,referrals_allocations,referrals,\
+source_rates,supplier_rates,veh_groups,authorities,request
 
 api_router = APIRouter()
 api_router.include_router(login.router, tags=["login"])
@@ -17,3 +18,4 @@ api_router.include_router(source_rates.router, prefix="/source_rates", tags=["so
 api_router.include_router(supplier_rates.router, prefix="/supplier_rates", tags=["supplier_rates"])
 api_router.include_router(veh_groups.router, prefix="/veh_groups", tags=["veh_groups"])
 api_router.include_router(authorities.router, prefix="/authorities", tags=["authorities"])
+api_router.include_router(request.router, prefix="/requests", tags=["requests"])
