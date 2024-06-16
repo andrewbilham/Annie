@@ -78,13 +78,13 @@ echo $HASHED_PASSWORD
 * Create an environment variable with the domain name for your server, e.g.:
 
 ```bash
-export DOMAIN=fastapi-project.example.com
+export DOMAIN=accidentportal.co.uk
 ```
 
 * Create an environment variable with the email for Let's Encrypt, e.g.:
 
 ```bash
-export EMAIL=admin@example.com
+export EMAIL=andrewbilham@me.com
 ```
 
 **Note**: you need to set a different email, an email `@example.com` won't work.
