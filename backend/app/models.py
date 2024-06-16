@@ -716,8 +716,6 @@ class RequestCreate(SQLModel):
     authority_id : int
 
 
-
-
 # Generic message
 class Message(SQLModel):
     message: str
