@@ -10,8 +10,8 @@ jobs:
     runs-on:
       - self-hosted
       - staging
-    enviroment: staging
     env:
+      enviroment: staging
       ENVIRONMENT: staging
       DOMAIN: ${{ secrets.DOMAIN_STAGING }}
       STACK_NAME: ${{ secrets.STACK_NAME_STAGING }}
