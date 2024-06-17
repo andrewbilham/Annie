@@ -1936,10 +1936,6 @@ id,
 
 }
 
-export type TDataCreateReferral = {
-                requestBody: RequestCreate
-                
-            }
 
 export class RequestsService {
 
