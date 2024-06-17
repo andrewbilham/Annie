@@ -10,6 +10,8 @@ jobs:
     runs-on:
       - self-hosted
       - staging
+    secrets: inherit
+    ENVIRONMENT: staging
     env:
       ENVIRONMENT: staging
       DOMAIN: ${{ secrets.DOMAIN_STAGING }}
