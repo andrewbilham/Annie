@@ -1,5 +1,5 @@
 name: Deploy to Staging
-
+secrets: inherit
 on:
   push:
     branches:
@@ -26,6 +26,5 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        secrets: inherit
       - run: docker-compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_STAGING }} build
       - run: docker-compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_STAGING }} up -d
