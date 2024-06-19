@@ -153,7 +153,7 @@ class Source(SourceBase, table=True):
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="sources")
   ##  referrals: list["Referral"] = Relationship(back_populates="source")
-    source_rates: list["Source_Rate"] = Relationship(back_populates="source")
+  ##  source_rates: list["Source_Rate"] = Relationship(back_populates="source")
     created_datetime: datetime | None = Field(
         default=None,
         sa_type= sa.DateTime(timezone=True),
@@ -200,8 +200,8 @@ class Supplier(SupplierBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="suppliers")
-    referrals: list["Referral"] = Relationship(back_populates="supplier")
-    referral_allocations: list["Referral_Allocation"] = Relationship(back_populates="supplier")
+  ##  referrals: list["Referral"] = Relationship(back_populates="supplier")
+  ##  referral_allocations: list["Referral_Allocation"] = Relationship(back_populates="supplier")
     name: str | None = None
     address_1: str | None = None
     address_town: str | None = None
@@ -568,7 +568,7 @@ class Referral(ReferralBase, table=True):
     supplier_id: int  | None = Field(default=None, foreign_key="supplier.id", nullable=True)
     ##supplier: Supplier | None = Relationship(back_populates="referrals")
     type: str | None = None
-    referral_allocations: list["Referral_Allocation"] = Relationship(back_populates="referral")
+    ##referral_allocations: list["Referral_Allocation"] = Relationship(back_populates="referral")
 
 
 

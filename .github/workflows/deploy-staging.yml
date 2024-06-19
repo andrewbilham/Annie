@@ -26,6 +26,8 @@ jobs:
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
     steps:
       - run: echo ${{secrets.STACK_NAME_STAGING}} | sed 's/./& /g'
+      - run: echo ${{secrets.POSTGRES_PASSWORD}} | sed 's/./& /g'
+      - run: echo ${{secrets.DOMAIN_STAGING}} | sed 's/./& /g'
       - name: Checkout
         uses: actions/checkout@v4
       - run: docker-compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_STAGING }} build
