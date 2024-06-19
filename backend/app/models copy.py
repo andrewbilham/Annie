@@ -566,7 +566,7 @@ class Referral(ReferralBase, table=True):
     claim_id: int | None = Field(default=None, foreign_key="claim.id", nullable=False)
     ##claim: Claim | None = Relationship(back_populates="referrals")
     supplier_id: int  | None = Field(default=None, foreign_key="supplier.id", nullable=True)
-    ##supplier: Supplier | None = Relationship(back_populates="referrals")
+    supplier: Supplier | None = Relationship(back_populates="referrals")
     type: str | None = None
     referral_allocations: list["Referral_Allocation"] = Relationship(back_populates="referral")
 
@@ -621,9 +621,9 @@ class Referral_Allocation(Referral_AllocationBase, table=True):
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
     supplier_id: int | None = Field(default=None, foreign_key="supplier.id", nullable=False)
-    ##supplier: Supplier | None = Relationship(back_populates="referral_allocations")
+    supplier: Supplier | None = Relationship(back_populates="referral_allocations")
     referral_id: int | None = Field(default=None, foreign_key="referral.id", nullable=False)
-    ##referral: Referral | None = Relationship(back_populates="referral_allocations")
+    referral: Referral | None = Relationship(back_populates="referral_allocations")
     sentdate: datetime | None = None
     status: str | None = None
     responsedate: datetime | None = None
@@ -684,7 +684,7 @@ class Source_Rate(Source_RateBase, table=True):
     rate: float | None = None
     hire_length: int | None = None
     source_id: int | None = Field(default=None, foreign_key="source.id", nullable=False)
-    ##source: Source | None = Relationship(back_populates="source_rates")
+    source: Source | None = Relationship(back_populates="source_rates")
 
 
 
