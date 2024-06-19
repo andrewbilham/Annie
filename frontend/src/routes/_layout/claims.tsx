@@ -39,6 +39,7 @@ function ClaimsTableBody() {
           <Td color={!claim.client_lastname ? "ui.dim" : "inherit"}>
             {claim.client_lastname || "N/A"}
           </Td>
+         
           <Td>
             <ActionsMenu type={"Claim"} value={claim} />
           </Td>
@@ -54,8 +55,9 @@ function ClaimsTable() {
         <Thead>
           <Tr>
             <Th>ID</Th>
-            <Th>Title</Th>
-            <Th>Description</Th>
+            <Th>First Name</Th>
+            <Th>Last Name</Th>
+           
             <Th>Actions</Th>
           </Tr>
         </Thead>

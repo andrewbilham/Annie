@@ -47,6 +47,7 @@ class UpdatePassword(SQLModel):
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     hashed_password: str
+    source_id: int | None = Field(default=None, foreign_key="source.id", nullable=True)
     created_datetime: datetime | None = Field(
         default=None,
         sa_type= sa.DateTime(timezone=True),
@@ -562,7 +563,7 @@ class Referral(ReferralBase, table=True):
         sa_column_kwargs={"onupdate": sa.func.now(), "server_default": sa.func.now()},
     )
     source_id: int | None = Field(default=None, foreign_key="source.id", nullable=False)
-    ##source: Source | None = Relationship(back_populates="referrals")
+    source: Source | None = Relationship(back_populates="referrals")
     claim_id: int | None = Field(default=None, foreign_key="claim.id", nullable=False)
     ##claim: Claim | None = Relationship(back_populates="referrals")
     supplier_id: int  | None = Field(default=None, foreign_key="supplier.id", nullable=True)

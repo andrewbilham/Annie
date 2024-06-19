@@ -10,6 +10,7 @@ const items = [
   { icon: FiBriefcase, title: "Items", path: "/items" },
   { icon: FiBriefcase, title: "Sources", path: "/sources" },
   { icon: FiBriefcase, title: "Claims", path: "/claims" },
+  { icon: FiBriefcase, title: "Referrals", path: "/referrals" },
   { icon: FiSettings, title: "User Settings", path: "/settings" },
 ]
 

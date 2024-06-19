@@ -9,18 +9,19 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs"
 import { FiEdit, FiTrash } from "react-icons/fi"
 
-import type { ItemPublic, UserPublic, SourcePublic, ClaimPublic } from "../../client"
+import type { ItemPublic, UserPublic, SourcePublic, ClaimPublic, ReferralPublic} from "../../client"
 import EditUser from "../Admin/EditUser"
 import EditItem from "../Items/EditItem"
 import EditSource from "../Sources/EditSource"
 import EditClaim from "../Claims/EditClaim"
+import EditReferral from "../Referrals/EditReferral"
 import Delete from "./DeleteAlert"
 
 
 
 interface ActionsMenuProps {
   type: string
-  value: ItemPublic | UserPublic | SourcePublic | ClaimPublic
+  value: ItemPublic | UserPublic | SourcePublic | ClaimPublic | ReferralPublic
   disabled?: boolean
 }
 
@@ -73,6 +74,12 @@ const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
         isOpen={editUserModal.isOpen}
         onClose={editUserModal.onClose}
       />
+        ) : type === "Referral" ? (
+          <EditReferral
+          referral={value as ReferralPublic}
+          isOpen={editUserModal.isOpen}
+          onClose={editUserModal.onClose}
+        />
         ) : 
         <EditClaim
         claim={value as ClaimPublic}

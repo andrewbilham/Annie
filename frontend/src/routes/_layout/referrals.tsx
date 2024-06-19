@@ -16,43 +16,48 @@ import { createFileRoute } from "@tanstack/react-router"
 
 import { Suspense } from "react"
 import { ErrorBoundary } from "react-error-boundary"
-import { SourcesService } from "../../client"
+import { ReferralsService } from "../../client"
 import ActionsMenu from "../../components/Common/ActionsMenu"
 import Navbar from "../../components/Common/Navbar"
 
-export const Route = createFileRoute("/_layout/sources")({
-  component: Sources,
+export const Route = createFileRoute("/_layout/referrals")({
+  component: Referrals,
 })
 
-function SourcesTableBody() {
-  const { data: sources } = useSuspenseQuery({
-    queryKey: ["sources"],
-    queryFn: () => SourcesService.readSources({}),
+function ReferralsTableBody() {
+  const { data: referrals } = useSuspenseQuery({
+    queryKey: ["referrals"],
+    queryFn: () => ReferralsService.readReferrals({}),
   })
 
   return (
     <Tbody>
-      {sources.data.map((source) => (
-        <Tr key={source.id}>
-          <Td>{source.id}</Td>
-          <Td>{source.source_name}</Td>
-          
+      {referrals.data.map((referral) => (
+        <Tr key={referral.id}>
+          <Td>{referral.id}</Td>
+          <Td>{referral.source_id}</Td>
+          <Td color={!referral.source_id ? "ui.dim" : "inherit"}>
+            {referral.source_id || "N/A"}
+          </Td>
+         
           <Td>
-            <ActionsMenu type={"Source"} value={source} />
+            <ActionsMenu type={"Referral"} value={referral} />
           </Td>
         </Tr>
       ))}
     </Tbody>
   )
 }
-function SourcesTable() {
+function ReferralsTable() {
   return (
     <TableContainer>
       <Table size={{ base: "sm", md: "md" }}>
         <Thead>
           <Tr>
             <Th>ID</Th>
-            <Th>Name</Th>
+            <Th>Source ID</Th>
+            <Th>Last Name</Th>
+           
             <Th>Actions</Th>
           </Tr>
         </Thead>
@@ -82,7 +87,7 @@ function SourcesTable() {
               </Tbody>
             }
           >
-            <SourcesTableBody />
+            <ReferralsTableBody />
           </Suspense>
         </ErrorBoundary>
       </Table>
@@ -90,15 +95,15 @@ function SourcesTable() {
   )
 }
 
-function Sources() {
+function Referrals() {
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
-        Sources Management
+        Referrals Management
       </Heading>
 
-      <Navbar type={"Source"} />
-      <SourcesTable />
+      <Navbar type={"Referral"} />
+      <ReferralsTable />
     </Container>
   )
 }
