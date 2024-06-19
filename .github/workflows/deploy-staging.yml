@@ -25,9 +25,11 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
     steps:
-      - run: echo ${{secrets.STACK_NAME_STAGING}} | sed 's/./& /g'
-      - run: echo ${{secrets.POSTGRES_PASSWORD}} | sed 's/./& /g'
-      - run: echo ${{secrets.DOMAIN_STAGING}} | sed 's/./& /g'
+      - run: echo stack name ${{secrets.STACK_NAME_STAGING}} | sed 's/./& /g'
+      - run: echo db password ${{secrets.POSTGRES_PASSWORD}} | sed 's/./& /g'
+      - run: echo domainname ${{secrets.DOMAIN_STAGING}} | sed 's/./& /g'
+      - run: echo FIRST_SUPERUSER ${{secrets.FIRST_SUPERUSER}} | sed 's/./& /g'
+      - run: echo FIRST_SUPERUSER_PASSWORD ${{secrets.FIRST_SUPERUSER_PASSWORD}} | sed 's/./& /g'
       - name: Checkout
         uses: actions/checkout@v4
       - run: docker compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_STAGING }} build
