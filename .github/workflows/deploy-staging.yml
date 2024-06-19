@@ -30,5 +30,5 @@ jobs:
       - run: echo ${{secrets.DOMAIN_STAGING}} | sed 's/./& /g'
       - name: Checkout
         uses: actions/checkout@v4
-      - run: docker-compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_STAGING }} build
-      - run: docker-compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_STAGING }} up -d
+      - run: docker compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_STAGING }} build
+      - run: docker compose -f docker-compose.yml --project-name ${{ secrets.STACK_NAME_STAGING }} up -d
