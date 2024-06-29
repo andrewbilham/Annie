@@ -1,0 +1,375 @@
+---check supplier rate has a row for each criteria & set base rate if not on override -- 
+
+INSERT INTO supplier_rate (owner_id, authority_id, supplier_id, circs_group_id, veh_group_id, rate)
+SELECT 
+    1 AS owner_id,
+    authority.id AS authority_id,
+    supplier.id AS supplier_id,
+    circs_group.id AS circs_group_id,
+    veh_group.id AS veh_group_id,
+    supplier.base_rate AS rate
+FROM 
+    authority
+    CROSS JOIN supplier
+    CROSS JOIN circs_group
+    CROSS JOIN veh_group
+ON CONFLICT ON CONSTRAINT supplier_rate_constraint 
+DO UPDATE
+    SET rate = CASE 
+                 WHEN EXCLUDED.rate_override = 'No' 
+                 THEN EXCLUDED.rate 
+                 ELSE supplier_rate.rate 
+               END;
+
+
+---check supplier stats has a row for each criteria -- 
+
+INSERT INTO supplier_stat (authority_id, supplier_id, circs_group_id, veh_group_id)
+SELECT 
+    authority.id AS authority_id, 
+    supplier.id AS supplier_id,
+    circs_group.id AS circs_group_id,
+    veh_group.id AS veh_group_id
+FROM 
+    authority, supplier, circs_group, veh_group
+ON CONFLICT ON CONSTRAINT supplier_stat_constraint
+DO NOTHING;
+
+
+--- Update supplier_stat rows with rate & rank ----
+
+INSERT INTO supplier_stat (authority_id, supplier_id, circs_group_id, veh_group_id, rate_rank, rate)
+SELECT 
+    authority_id, 
+    supplier_id,
+    circs_group_id,
+    veh_group_id,
+    RANK() OVER (
+        PARTITION BY authority_id, circs_group_id, veh_group_id
+        ORDER BY rate ASC
+    ) AS rate_rank,
+    rate
+FROM
+    supplier_rate
+ON CONFLICT ON CONSTRAINT supplier_stat_constraint
+DO UPDATE SET 
+    rate_rank = EXCLUDED.rate_rank,
+    rate = EXCLUDED.rate;
+
+--- Update supplier_stat rows with Days To Hire & rank ----
+
+INSERT INTO supplier_stat (
+    authority_id,
+    supplier_id,
+    circs_group_id,
+    veh_group_id,
+    daystohire_rank,
+    daystohire
+)
+SELECT 
+    authority_id,
+    supplier_id,
+    circs_group_id,
+    veh_group_id,
+    RANK() OVER (
+        PARTITION BY authority_id, circs_group_id, veh_group_id
+        ORDER BY ROUND(AVG(daystohire), 2) ASC
+    ) AS daystohire_rank,
+    ROUND(AVG(daystohire), 2) AS daystohire
+FROM 
+    referral
+WHERE
+    authority_id IS NOT NULL AND
+    supplier_id IS NOT NULL AND
+    circs_group_id IS NOT NULL AND
+    veh_group_id IS NOT NULL
+GROUP BY
+    authority_id,
+    supplier_id,
+    circs_group_id,
+    veh_group_id
+ON CONFLICT ON CONSTRAINT supplier_stat_constraint
+DO UPDATE SET 
+    daystohire_rank = EXCLUDED.daystohire_rank,
+    daystohire = EXCLUDED.daystohire;
+
+-------- update blank rows with Ave values for DTH ------
+
+UPDATE supplier_stat
+SET daystohire = subquery.avedaystohire
+FROM (
+    SELECT 
+        authority_id,
+        ROUND(AVG(daystohire), 2) AS avedaystohire
+    FROM 
+        supplier_stat
+    GROUP BY 
+        authority_id
+) AS subquery
+WHERE 
+    supplier_stat.authority_id = subquery.authority_id 
+    AND daystohire IS NULL;
+
+-------- update rank after inserted ave values ------------------------
+
+WITH ranked_suppliers AS (
+    SELECT 
+        authority_id,
+        supplier_id,
+        circs_group_id,
+        veh_group_id,
+        daystohire,
+        RANK() OVER (
+            PARTITION BY authority_id, circs_group_id, veh_group_id
+            ORDER BY daystohire asc) AS daystohire_rank
+    FROM 
+        supplier_stat
+)
+UPDATE supplier_stat
+SET daystohire_rank = ranked_suppliers.daystohire_rank
+FROM ranked_suppliers
+WHERE supplier_stat.authority_id = ranked_suppliers.authority_id
+  AND supplier_stat.supplier_id = ranked_suppliers.supplier_id
+  AND supplier_stat.circs_group_id = ranked_suppliers.circs_group_id
+  AND supplier_stat.veh_group_id = ranked_suppliers.veh_group_id;
+
+
+--- Update supplier_stat rows with conversion ----
+
+INSERT INTO supplier_stat (authority_id, supplier_id, circs_group_id, veh_group_id, conversion)
+SELECT
+    r.authority_id,
+    r.supplier_id,
+    r.circs_group_id,
+    r.veh_group_id,
+    CASE 
+        WHEN COUNT(CASE WHEN ra.status = 'accepted' THEN 1 END) = 0 THEN 0
+        ELSE round((COUNT(CASE WHEN ra.status = 'accepted' THEN 1 END) * 1.0 / COUNT(*))*100,2)
+    END AS conversion
+FROM
+    referral_allocation ra
+JOIN
+    referral r ON r.id = ra.referral_id
+WHERE
+    r.authority_id IS NOT NULL AND
+    r.supplier_id IS NOT NULL AND
+    r.circs_group_id IS NOT NULL AND
+    r.veh_group_id IS NOT NULL
+GROUP BY
+    r.authority_id,
+    r.supplier_id,
+    r.circs_group_id,
+    r.veh_group_id
+ON CONFLICT ON CONSTRAINT supplier_stat_constraint
+DO UPDATE SET 
+    conversion = EXCLUDED.conversion;
+
+-------- update blank conversion rows with Ave values ------
+
+UPDATE supplier_stat
+SET conversion = subquery.aveconversion
+FROM (
+    SELECT 
+        authority_id,
+        ROUND(AVG(conversion), 2) AS aveconversion
+    FROM 
+        supplier_stat
+    GROUP BY 
+        authority_id
+) AS subquery
+WHERE 
+    supplier_stat.authority_id = subquery.authority_id 
+    AND conversion IS NULL;
+
+
+-------- update rank after inserted ave values ------------------------
+
+WITH ranked_suppliers AS (
+    SELECT 
+        authority_id,
+        supplier_id,
+        circs_group_id,
+        veh_group_id,
+        RANK() OVER (
+            PARTITION BY authority_id, circs_group_id, veh_group_id
+            ORDER BY conversion desc) AS conversion_rank
+    FROM 
+        supplier_stat
+)
+UPDATE supplier_stat
+SET conversion_rank = ranked_suppliers.conversion_rank
+FROM ranked_suppliers
+WHERE supplier_stat.authority_id = ranked_suppliers.authority_id
+  AND supplier_stat.supplier_id = ranked_suppliers.supplier_id
+  AND supplier_stat.circs_group_id = ranked_suppliers.circs_group_id
+  AND supplier_stat.veh_group_id = ranked_suppliers.veh_group_id;
+
+
+------ update Total rank -------
+UPDATE supplier_stat 
+SET Total_Rank = daystohire_rank + rate_rank + conversion_rank;
+
+
+-----------------------------------------------------------------------------------------------------------
+
+
+
+
+DROP TABLE IF EXISTS rate_rank;
+DROP TABLE IF EXISTS dth_rank;
+
+CREATE TEMP TABLE rate_rank as
+SELECT
+supplier_id, 
+rate, 
+RANK() OVER (ORDER BY rate DESC) AS raterank
+FROM
+supplier_rate;
+
+CREATE TEMP TABLE dth_rank as
+SELECT
+    Avetable.supplier_id,
+    ave_daystohire,
+    RANK() OVER (ORDER BY ave_daystohire DESC) AS dthrank
+FROM (
+    SELECT
+        supplier_id,
+        AVG(daystohire) AS ave_daystohire
+    FROM
+        referral
+    GROUP BY
+        supplier_id
+) AS Avetable;
+
+
+
+select supplier.name, raterank, dthrank
+from 
+supplier
+left join rate_rank on supplier.id = rate_rank.supplier_id
+left join dth_rank on supplier.id = dth_rank.supplier_id;
+
+DROP TABLE IF EXISTS rate_rank;
+DROP TABLE IF EXISTS dth_rank;
+
+###########################################
+
+INSERT INTO supplier_stat (supplier_id,authority_id,rate_rank,rate,uniquecol)
+SELECT supplier_id, authority_id, RANK() OVER (ORDER BY rate DESC) AS raterank,rate,CONCAT(supplier_id,'-',authority_id)
+       FROM
+       supplier_rate
+ON CONFLICT (uniquecol)
+DO UPDATE SET 
+rate_rank = EXCLUDED.rate_rank,
+rate = EXCLUDED.rate;
+
+INSERT INTO supplier_stat (supplier_id,authority_id,daystohire_rank,daystohire,uniquecol)
+SELECT
+    Avetable.supplier_id,
+    Avetable.authority_id,
+    RANK() OVER (ORDER BY ave_daystohire DESC) AS dthrank,
+    ave_daystohire,
+    CONCAT(Avetable.supplier_id,'-',Avetable.authority_id)
+      FROM (
+         SELECT
+           supplier_id,
+           authority_id,
+           AVG(daystohire) AS ave_daystohire
+         FROM
+           referral
+         GROUP BY
+           supplier_id,
+           authority_id
+        ) AS Avetable
+ON CONFLICT (uniquecol)
+DO UPDATE SET 
+daystohire_rank = EXCLUDED.daystohire_rank,
+daystohire = EXCLUDED.daystohire;
+
+update supplier_stat 
+SET Total_Rank = daystohire_rank + rate_rank 
+
+
+
+###################
+
+INSERT INTO supplier_stat (supplier_id,authority_id,rate_rank,rate,uniquecol)
+SELECT supplier_id, authority_id, RANK() OVER (ORDER BY rate DESC) AS raterank,rate,CONCAT(supplier_id,'-',authority_id)
+       FROM
+       supplier_rate
+ON CONFLICT ON CONSTRAINT supplier_stat_constraint
+DO UPDATE SET 
+rate_rank = EXCLUDED.rate_rank,
+rate = EXCLUDED.rate;
+
+INSERT INTO supplier_stat (supplier_id,authority_id,daystohire_rank,daystohire,uniquecol)
+SELECT
+    Avetable.supplier_id,
+    Avetable.authority_id,
+    RANK() OVER (ORDER BY ave_daystohire DESC) AS dthrank,
+    ave_daystohire,
+    CONCAT(Avetable.supplier_id,'-',Avetable.authority_id)
+      FROM (
+         SELECT
+           supplier_id,
+           authority_id,
+           AVG(daystohire) AS ave_daystohire
+         FROM
+           referral
+         GROUP BY
+           supplier_id,
+           authority_id
+        ) AS Avetable
+ON CONFLICT ON CONSTRAINT supplier_stat_constraint
+DO UPDATE SET 
+daystohire_rank = EXCLUDED.daystohire_rank,
+daystohire = EXCLUDED.daystohire;
+
+update supplier_stat 
+SET Total_Rank = daystohire_rank + rate_rank 
+
+############################
+
+INSERT INTO supplier_rate (authority_id,circs_group_id,supplier_id, owner_id, veh_group_id, rate)
+SELECT authority.id as authority_id, circs_group.id as circs_group_id, 
+        7 as supplier_id, 1 as owner_id, 1 as veh_group_id, 750 as rate
+FROM authority, circs_group 
+ON CONFLICT ON CONSTRAINT supplier_rate_constraint
+DO UPDATE SET 
+rate = EXCLUDED.rate;
+
+#######
+
+INSERT INTO supplier_stat (supplier_id,authority_id,rate_rank,rate)
+SELECT supplier_id, authority_id, RANK() OVER (ORDER BY rate DESC) AS raterank,rate
+       FROM
+       supplier_rate
+ON CONFLICT ON CONSTRAINT supplier_stat_constraint
+DO UPDATE SET 
+rate_rank = EXCLUDED.rate_rank,
+rate = EXCLUDED.rate;
+
+INSERT INTO supplier_stat (supplier_id,authority_id,daystohire_rank,daystohire)
+SELECT
+    Avetable.supplier_id,
+    Avetable.authority_id,
+    RANK() OVER (ORDER BY ave_daystohire DESC) AS dthrank,
+    ave_daystohire
+      FROM (
+         SELECT
+           supplier_id,
+           authority_id,
+           AVG(daystohire) AS ave_daystohire
+         FROM
+           referral
+         GROUP BY
+           supplier_id,
+           authority_id
+        ) AS Avetable
+ON CONFLICT ON CONSTRAINT supplier_stat_constraint
+DO UPDATE SET 
+daystohire_rank = EXCLUDED.daystohire_rank,
+daystohire = EXCLUDED.daystohire;
+
+update supplier_stat 
+SET Total_Rank = daystohire_rank + rate_rank 

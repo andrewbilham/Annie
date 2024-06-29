@@ -115,9 +115,3 @@ def create_supplier_rate(*, session: Session, supplier_rate_in: SupplierCreate, 
     session.refresh(db_supplier_rate)
     return db_supplier_rate
 
-def create_claim(*, session: Session, claim_in: SupplierCreate, owner_id: int) -> Supplier:
-    db_claim = Supplier.model_validate(claim_in, update={"owner_id": owner_id})
-    session.add(db_claim)
-    session.commit()
-    session.refresh(db_claim)
-    return db_claim

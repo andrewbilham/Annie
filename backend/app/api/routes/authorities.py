@@ -64,6 +64,7 @@ def create_authority(
     session.add(authority)
     session.commit()
     session.refresh(authority)
+    
     return authority
 
 

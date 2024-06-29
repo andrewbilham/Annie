@@ -17,8 +17,12 @@ export const $AuthoritiesPublic = {
 export const $AuthorityCreate = {
 	properties: {
 		name: {
+	type: 'any-of',
+	contains: [{
 	type: 'string',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
@@ -26,8 +30,12 @@ export const $AuthorityCreate = {
 export const $AuthorityPublic = {
 	properties: {
 		name: {
+	type: 'any-of',
+	contains: [{
 	type: 'string',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
 		id: {
 	type: 'number',
@@ -176,9 +184,207 @@ export const $ClaimCreate = {
 	type: 'string',
 	isRequired: true,
 },
+		client_address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_vehicle_reg: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_insurer: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_insurer_policyno: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_phone: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_mobile: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_email: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
 		authority_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		accident_date: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'date',
+}, {
+	type: 'null',
+}],
+},
+		accident_time: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'time',
+}, {
+	type: 'null',
+}],
+},
+		accident_location: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		accident_circs: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_firstname: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_lastname: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_vehicle_reg: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_insurer: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_insurer_polcyno: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_phone: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_mobile: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
@@ -193,9 +399,207 @@ export const $ClaimPublic = {
 	type: 'string',
 	isRequired: true,
 },
+		client_address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_vehicle_reg: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_insurer: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_insurer_policyno: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_phone: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_mobile: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_email: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
 		authority_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		accident_date: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'date',
+}, {
+	type: 'null',
+}],
+},
+		accident_time: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'time',
+}, {
+	type: 'null',
+}],
+},
+		accident_location: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		accident_circs: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_firstname: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_lastname: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_vehicle_reg: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_insurer: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_insurer_polcyno: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_phone: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_mobile: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
 },
 		id: {
 	type: 'number',
@@ -222,9 +626,207 @@ export const $ClaimUpdate = {
 	type: 'null',
 }],
 },
+		client_address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_vehicle_reg: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_insurer: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_insurer_policyno: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_phone: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_mobile: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_email: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
 		authority_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		accident_date: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'date',
+}, {
+	type: 'null',
+}],
+},
+		accident_time: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'time',
+}, {
+	type: 'null',
+}],
+},
+		accident_location: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		accident_circs: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_firstname: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_lastname: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_vehicle_reg: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_insurer: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_insurer_polcyno: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_phone: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_mobile: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
@@ -360,12 +962,44 @@ export const $NewPassword = {
 export const $ReferralCreate = {
 	properties: {
 		source_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
 		claim_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
+},
+		supplier_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		authority_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
@@ -373,19 +1007,51 @@ export const $ReferralCreate = {
 export const $ReferralPublic = {
 	properties: {
 		source_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
 		claim_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
+},
+		supplier_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		authority_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
 },
 		id: {
 	type: 'number',
 	isRequired: true,
 },
-		owner_id: {
-	type: 'number',
+		source: {
+	type: 'Source',
 	isRequired: true,
 },
 	},
@@ -402,26 +1068,130 @@ export const $ReferralUpdate = {
 }],
 },
 		claim_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
+},
+		supplier_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		authority_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		daystohire: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		creditrepair: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
 
 export const $Referral_AllocationCreate = {
 	properties: {
-		Source: {
+		supplier_id: {
+	type: 'number',
+	isRequired: true,
+},
+		referral_id: {
+	type: 'number',
+	isRequired: true,
+},
+		sentdate: {
 	type: 'string',
 	isRequired: true,
+	format: 'date-time',
+},
+		status: {
+	type: 'string',
+	isRequired: true,
+},
+		responsedate: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'date-time',
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
 
 export const $Referral_AllocationPublic = {
 	properties: {
-		Source: {
+		supplier_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		referral_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		sentdate: {
+	type: 'any-of',
+	contains: [{
 	type: 'string',
-	isRequired: true,
+	format: 'date-time',
+}, {
+	type: 'null',
+}],
+},
+		status: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		responsedate: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'date-time',
+}, {
+	type: 'null',
+}],
 },
 		id: {
 	type: 'number',
@@ -436,10 +1206,44 @@ export const $Referral_AllocationPublic = {
 
 export const $Referral_AllocationUpdate = {
 	properties: {
-		Source: {
+		supplier_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		referral_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		sentdate: {
 	type: 'any-of',
 	contains: [{
 	type: 'string',
+	format: 'date-time',
+}, {
+	type: 'null',
+}],
+},
+		status: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		responsedate: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'date-time',
 }, {
 	type: 'null',
 }],
@@ -481,13 +1285,41 @@ export const $ReferralsPublic = {
 
 export const $RequestCreate = {
 	properties: {
-		type: {
-	type: 'string',
-	isRequired: true,
-},
 		source_id: {
 	type: 'number',
 	isRequired: true,
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		daystohire: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		creditrepair: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		authority_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
 },
 		client_firstname: {
 	type: 'string',
@@ -497,9 +1329,266 @@ export const $RequestCreate = {
 	type: 'string',
 	isRequired: true,
 },
-		authority_id: {
+		client_address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_vehicle_reg: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_insurer: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_insurer_policyno: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_phone: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_mobile: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		client_email: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		accident_date: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'date',
+}, {
+	type: 'null',
+}],
+},
+		accident_time: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'time',
+}, {
+	type: 'null',
+}],
+},
+		accident_location: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		accident_circs: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_firstname: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_lastname: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_vehicle_reg: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_insurer: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_insurer_polcyno: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_phone: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		tp_mobile: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		circs_grade_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		veh_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		circs_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+	},
+} as const;
+
+export const $Source = {
+	properties: {
+		created_datetime: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'date-time',
+}, {
+	type: 'null',
+}],
+},
+		updated_datetime: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+	format: 'date-time',
+}, {
+	type: 'null',
+}],
+},
+		source_name: {
+	type: 'string',
 	isRequired: true,
+},
+		id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		owner_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
@@ -523,10 +1612,6 @@ export const $SourcePublic = {
 	type: 'number',
 	isRequired: true,
 },
-		owner_id: {
-	type: 'number',
-	isRequired: true,
-},
 	},
 } as const;
 
@@ -545,33 +1630,201 @@ export const $SourceUpdate = {
 
 export const $Source_RateCreate = {
 	properties: {
-		rate: {
+		authority_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		veh_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		circs_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		rate: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		hire_length: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		source_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
 
 export const $Source_RatePublic = {
 	properties: {
+		authority_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		veh_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		circs_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
 		rate: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
-		id: {
+		hire_length: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
-		owner_id: {
+		source_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
 
 export const $Source_RateUpdate = {
 	properties: {
+		authority_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		veh_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		circs_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
 		rate: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		hire_length: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		source_id: {
 	type: 'any-of',
 	contains: [{
 	type: 'number',
@@ -620,6 +1873,50 @@ export const $SupplierCreate = {
 	type: 'string',
 	isRequired: true,
 },
+		address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		base_rate: {
+	type: 'number',
+	isRequired: true,
+},
+		Email: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		Tel: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
 	},
 } as const;
 
@@ -629,11 +1926,51 @@ export const $SupplierPublic = {
 	type: 'string',
 	isRequired: true,
 },
-		id: {
+		address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		base_rate: {
 	type: 'number',
 	isRequired: true,
 },
-		owner_id: {
+		Email: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		Tel: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		id: {
 	type: 'number',
 	isRequired: true,
 },
@@ -650,23 +1987,191 @@ export const $SupplierUpdate = {
 	type: 'null',
 }],
 },
+		address_1: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		address_town: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		address_postcode: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		base_rate: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		Email: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		Tel: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
 	},
 } as const;
 
 export const $Supplier_RateCreate = {
 	properties: {
-		rate: {
+		authority_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		veh_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		circs_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		rate: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		hire_length: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		supplier_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
 
 export const $Supplier_RatePublic = {
 	properties: {
-		rate: {
+		authority_id: {
+	type: 'any-of',
+	contains: [{
 	type: 'number',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		veh_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		circs_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		rate: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		hire_length: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		supplier_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
 },
 		id: {
 	type: 'number',
@@ -681,7 +2186,63 @@ export const $Supplier_RatePublic = {
 
 export const $Supplier_RateUpdate = {
 	properties: {
+		authority_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		plate_type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
+		veh_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		circs_group_id: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		type: {
+	type: 'any-of',
+	contains: [{
+	type: 'string',
+}, {
+	type: 'null',
+}],
+},
 		rate: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		hire_length: {
+	type: 'any-of',
+	contains: [{
+	type: 'number',
+}, {
+	type: 'null',
+}],
+},
+		supplier_id: {
 	type: 'any-of',
 	contains: [{
 	type: 'number',
@@ -931,12 +2492,20 @@ export const $ValidationError = {
 export const $Veh_GroupCreate = {
 	properties: {
 		group: {
+	type: 'any-of',
+	contains: [{
 	type: 'string',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
 		desc: {
+	type: 'any-of',
+	contains: [{
 	type: 'string',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
 	},
 } as const;
@@ -944,12 +2513,20 @@ export const $Veh_GroupCreate = {
 export const $Veh_GroupPublic = {
 	properties: {
 		group: {
+	type: 'any-of',
+	contains: [{
 	type: 'string',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
 		desc: {
+	type: 'any-of',
+	contains: [{
 	type: 'string',
-	isRequired: true,
+}, {
+	type: 'null',
+}],
 },
 		id: {
 	type: 'number',

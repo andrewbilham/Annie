@@ -1,10 +1,11 @@
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
-from sqlmodel import func, select
+from sqlmodel import func, select, insert
+from sqlalchemy import text
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Supplier, SupplierCreate, SupplierPublic, SuppliersPublic, SupplierUpdate, Message
+from app.models import Supplier, SupplierCreate, SupplierPublic, SuppliersPublic, SupplierUpdate, Supplier_Rate, Circs_Group, Authority,Message
 
 router = APIRouter()
 
@@ -55,7 +56,7 @@ def read_supplier(session: SessionDep, current_user: CurrentUser, id: int) -> An
 
 @router.post("/", response_model=SupplierPublic)
 def create_supplier(
-    *, session: SessionDep, current_user: CurrentUser, supplier_in: SupplierCreate
+    *, session: SessionDep, current_user: CurrentUser,supplier_in: SupplierCreate
 ) -> Any:
     """
     Create new supplier.
@@ -64,6 +65,20 @@ def create_supplier(
     session.add(supplier)
     session.commit()
     session.refresh(supplier)
+
+    insert_select_sql = text("""
+        INSERT INTO supplier_rate (authority_id,circs_group_id,supplier_id, owner_id, veh_group_id, rate)
+        SELECT authority.id as authority_id, circs_group.id as circs_group_id, 
+         :supplerid as supplier_id, :current_userid as owner_id, veh_group.id as veh_group_id, :rate as rate
+        FROM authority, circs_group, veh_group
+        ON CONFLICT ON CONSTRAINT supplier_rate_constraint
+        DO UPDATE SET 
+        rate = EXCLUDED.rate;""")
+    
+        # Execute the raw SQL
+    session.execute(insert_select_sql, {'supplerid':supplier.id, 'current_userid':current_user.id, 'rate':supplier.base_rate})
+    session.commit()
+
     return supplier
 
 
@@ -84,6 +99,20 @@ def update_supplier(
     session.add(supplier)
     session.commit()
     session.refresh(supplier)
+
+    insert_select_sql = text("""
+        INSERT INTO supplier_rate (authority_id,circs_group_id,supplier_id, owner_id, veh_group_id, rate)
+        SELECT authority.id as authority_id, circs_group.id as circs_group_id, 
+         :supplerid as supplier_id, :current_userid as owner_id, veh_group.id as veh_group_id, :rate as rate
+        FROM authority, circs_group, veh_group
+        ON CONFLICT ON CONSTRAINT supplier_rate_constraint
+        DO UPDATE SET 
+        rate = EXCLUDED.rate;""")
+    
+        # Execute the raw SQL
+    session.execute(insert_select_sql, {'supplerid':supplier.id, 'current_userid':current_user.id, 'rate':supplier.base_rate})
+    session.commit()
+
     return supplier
 
 

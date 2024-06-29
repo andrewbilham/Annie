@@ -36,10 +36,11 @@ function ReferralsTableBody() {
         <Tr key={referral.id}>
           <Td>{referral.id}</Td>
           <Td>{referral.source_id}</Td>
+          <Td>{referral.source.source_name}</Td>
           <Td color={!referral.source_id ? "ui.dim" : "inherit"}>
             {referral.source_id || "N/A"}
           </Td>
-         
+    
           <Td>
             <ActionsMenu type={"Referral"} value={referral} />
           </Td>
@@ -56,6 +57,7 @@ function ReferralsTable() {
           <Tr>
             <Th>ID</Th>
             <Th>Source ID</Th>
+            <Th>Source</Th>
             <Th>Last Name</Th>
            
             <Th>Actions</Th>

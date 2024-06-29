@@ -2,7 +2,7 @@ import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
 
-import type { Body_login_login_access_token,Message,NewPassword,Token,UserPublic,UpdatePassword,UserCreate,UserRegister,UsersPublic,UserUpdate,UserUpdateMe,ItemCreate,ItemPublic,ItemsPublic,ItemUpdate,SourceCreate,SourcePublic,SourcesPublic,SourceUpdate,SupplierCreate,SupplierPublic,SuppliersPublic,SupplierUpdate,Circs_GroupCreate,Circs_GroupPublic,Circs_GroupsPublic,Circs_GroupUpdate,ClaimCreate,ClaimPublic,ClaimsPublic,ClaimUpdate,Referral_AllocationCreate,Referral_AllocationPublic,Referral_AllocationsPublic,Referral_AllocationUpdate,ReferralCreate,ReferralPublic,ReferralsPublic,ReferralUpdate,Source_RateCreate,Source_RatePublic,Source_RatesPublic,Source_RateUpdate,Supplier_RateCreate,Supplier_RatePublic,Supplier_RatesPublic,Supplier_RateUpdate,Veh_GroupCreate,Veh_GroupPublic,Veh_GroupsPublic,Veh_GroupUpdate,AuthoritiesPublic,AuthorityCreate,AuthorityPublic,AuthorityUpdate } from './models';
+import type { Body_login_login_access_token,Message,NewPassword,Token,UserPublic,UpdatePassword,UserCreate,UserRegister,UsersPublic,UserUpdate,UserUpdateMe,ItemCreate,ItemPublic,ItemsPublic,ItemUpdate,SourceCreate,SourcePublic,SourcesPublic,SourceUpdate,SupplierCreate,SupplierPublic,SuppliersPublic,SupplierUpdate,Circs_GroupCreate,Circs_GroupPublic,Circs_GroupsPublic,Circs_GroupUpdate,ClaimCreate,ClaimPublic,ClaimsPublic,ClaimUpdate,Referral_AllocationCreate,Referral_AllocationPublic,Referral_AllocationsPublic,Referral_AllocationUpdate,ReferralCreate,ReferralPublic,ReferralsPublic,ReferralUpdate,Source_RateCreate,Source_RatePublic,Source_RatesPublic,Source_RateUpdate,Supplier_RateCreate,Supplier_RatePublic,Supplier_RatesPublic,Supplier_RateUpdate,Veh_GroupCreate,Veh_GroupPublic,Veh_GroupsPublic,Veh_GroupUpdate,AuthoritiesPublic,AuthorityCreate,AuthorityPublic,AuthorityUpdate,RequestCreate } from './models';
 
 export type TDataLoginAccessToken = {
                 formData: Body_login_login_access_token
@@ -1936,16 +1936,20 @@ id,
 
 }
 
+export type TDataCreateRequest = {
+                requestBody: RequestCreate
+                
+            }
 
 export class RequestsService {
 
 	/**
-	 * Create Referral
+	 * Create Request
 	 * Create new request.
 	 * @returns unknown Successful Response
 	 * @throws ApiError
 	 */
-	public static createReferral(data: TDataCreateReferral): CancelablePromise<unknown> {
+	public static createRequest(data: TDataCreateRequest): CancelablePromise<unknown> {
 		const {
 requestBody,
 } = data;
