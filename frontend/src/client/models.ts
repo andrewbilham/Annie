@@ -171,10 +171,8 @@ export type ClaimsPublic = {
 
 
 export type HTTPValidationError = {
-	detail?: Array<ValidationError>;
-};
-
-
+  detail?: Array<ValidationError>
+}
 
 export type ItemCreate = {
 	title: string;
