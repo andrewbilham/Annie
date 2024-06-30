@@ -18,9 +18,9 @@ class CreatedModifiedBase():
         )
        
 
-
-# Shared properties
-# TODO replace email str with str when sqlmodel supports it
+##### users
+    # Shared properties
+    # TODO replace email str with EmailStr when sqlmodel supports it
 class UserBase(SQLModel):
     email: str = Field(unique=True, index=True, max_length=255)
     is_active: bool = True
