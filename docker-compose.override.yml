@@ -1,7 +1,7 @@
 services:
 
   proxy:
-    image: traefik:v2.3
+    image: traefik:3.0
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -44,8 +44,6 @@ services:
     restart: "no"
     ports:
       - "5432:5432"
-    
-
 
   adminer:
     restart: "no"

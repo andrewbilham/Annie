@@ -4,8 +4,6 @@ services:
     restart: always
     volumes:
       - app-db-data:/var/lib/postgresql/data/pgdata
-      - ./custom_postgresql.conf:/etc/postgresql/postgresql.conf
-      - ./logs:/var/lib/postgresql/data/pgdata/log
     env_file:
       - .env
     environment:
@@ -13,8 +11,6 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
       - POSTGRES_USER=${POSTGRES_USER?Variable not set}
       - POSTGRES_DB=${POSTGRES_DB?Variable not set}
-    
-
 
   adminer:
     image: adminer
